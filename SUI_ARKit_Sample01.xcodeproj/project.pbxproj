@@ -14,6 +14,7 @@
 		0CFD7E7B2E02BB1B00D68C44 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0CFD7E7A2E02BB1B00D68C44 /* README.md */; };
 		0CFD7E7F2E02BE5A00D68C44 /* ARKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */; };
 		0CFD7E812E02C47E00D68C44 /* ARKit_Sample01_VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */; };
+		0CFD7E842E02E4A600D68C44 /* ModelForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD7E832E02E4A600D68C44 /* ModelForm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		0CFD7E7A2E02BB1B00D68C44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitView.swift; sourceTree = "<group>"; };
 		0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKit_Sample01_VM.swift; sourceTree = "<group>"; };
+		0CFD7E832E02E4A600D68C44 /* ModelForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				0CFD7E6E2E02BA8800D68C44 /* ContentView.swift */,
 				0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */,
 				0CFD7E822E02C48A00D68C44 /* ViewModel */,
+				0CFD7E852E02E4AC00D68C44 /* Model */,
 				0CFD7E702E02BA8A00D68C44 /* Assets.xcassets */,
 				0CFD7E722E02BA8A00D68C44 /* Preview Content */,
 			);
@@ -82,6 +85,14 @@
 				0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0CFD7E852E02E4AC00D68C44 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0CFD7E832E02E4A600D68C44 /* ModelForm.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +168,7 @@
 			files = (
 				0CFD7E6F2E02BA8800D68C44 /* ContentView.swift in Sources */,
 				0CFD7E812E02C47E00D68C44 /* ARKit_Sample01_VM.swift in Sources */,
+				0CFD7E842E02E4A600D68C44 /* ModelForm.swift in Sources */,
 				0CFD7E6D2E02BA8800D68C44 /* SUI_ARKit_Sample01App.swift in Sources */,
 				0CFD7E7F2E02BE5A00D68C44 /* ARKitView.swift in Sources */,
 			);

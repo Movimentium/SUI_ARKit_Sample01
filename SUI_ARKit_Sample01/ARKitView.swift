@@ -6,8 +6,6 @@ import ARKit
 
 struct ARKitView: UIViewRepresentable {
     @EnvironmentObject var vm: ARKit_Sample01_VM
-
-    private let aNode = SCNNode()
     
     func makeUIView(context: Context) -> some UIView {
         print(Self.self, #function)
@@ -30,24 +28,44 @@ struct ARKitView: UIViewRepresentable {
 
         if vm.isAddedForm {
             addPrimitive(vwScene)
+        } else {
+            removeAllNodes(vwScene)
         }
-        
+        if vm.isFormRotating {
+            rotateForm(vwScene)
+        }
     }
     
     private func addPrimitive(_ vwScene: ARSCNView) {
         print(Self.self, #function)
-//        let aNode = SCNNode()
+        let aNode = SCNNode()
 
-        aNode.geometry = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+        aNode.geometry = vm.selectedModelForm.geom
         aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+        aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         aNode.position = SCNVector3(0, 0, -0.3) // A 30cm al frente
+        aNode.name = vm.selectedModelForm.str
         
         vwScene.scene.rootNode.addChildNode(aNode)
     }
     
     private func removeAllNodes(_ vwScene: ARSCNView) {
-        vwScene.scene.rootNode.enumerateChildNodes { node, _ in
-            node.removeFromParentNode()
+        vwScene.scene.rootNode.childNodes.forEach {
+            $0.removeAllActions()
+            $0.removeFromParentNode()
+        }
+    }
+    
+    private func rotateForm(_ vwScene: ARSCNView) {
+        let rotation = SCNAction.rotate(by: 90 * .pi / 180,
+                                        around:  vm.selectedModelForm.aroundRotation,
+                                        duration: 3)
+        let repeatRotation = SCNAction.repeatForever(rotation)
+        let nameToSearch = vm.selectedModelForm.str
+        vwScene.scene.rootNode.childNodes.forEach {
+            if $0.name == nameToSearch {
+                $0.runAction(repeatRotation)
+            }
         }
     }
     

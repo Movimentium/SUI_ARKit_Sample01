@@ -4,11 +4,34 @@
 import Foundation
 
 final class ARKit_Sample01_VM: ObservableObject {
-    @Published var isAddedForm = false
-    
+    @Published var aRKitViewUpdater = false
+    var selectedModelForm = ModelForm.box
+
+    var isAddedForm = false
+    var isFormRotating = false
+
     func addForm() {
         if isAddedForm == false {
             isAddedForm = true
+            updateARKitView()
         }
+    }
+    
+    func rotateForm() {
+        if isFormRotating == false {
+            isFormRotating = true
+            updateARKitView()
+        }
+
+    }
+    
+    func removeForm() {
+        isFormRotating = false
+        isAddedForm = false
+        updateARKitView()
+    }
+    
+    private func updateARKitView() {
+        aRKitViewUpdater.toggle()
     }
 }

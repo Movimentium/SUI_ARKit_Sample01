@@ -10,13 +10,25 @@ struct ContentView: View {
         VStack {
             ARKitView()
                 .border(.red)
-            Button {
-                vm.addForm()
-            } label: {
-                Text("Añadir forma")
+            Picker("Forma", selection: $vm.selectedModelForm) {
+                ForEach(ModelForm.allCases) { form in
+                    Text(form.str).tag(form)
+                }
             }
-            .buttonStyle(.borderedProminent)
+            HStack {
+                Button("Añadir") {
+                    vm.addForm()
+                }
+                Button("Rotar") {
+                    vm.rotateForm()
+                }
+                Button("Borrar") {
+                    vm.removeForm()
+                }
+                .tint(.red)
+            }
         }
+        .buttonStyle(.borderedProminent)
     }
 }
 
