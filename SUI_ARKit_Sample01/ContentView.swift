@@ -4,17 +4,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var vm: ARKit_Sample01_VM
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            ARKitView()
+                .border(.red)
+            Button {
+                vm.addForm()
+            } label: {
+                Text("Añadir forma")
+            }
+            .buttonStyle(.borderedProminent)
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(ARKit_Sample01_VM())
 }

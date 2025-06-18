@@ -12,6 +12,8 @@
 		0CFD7E712E02BA8A00D68C44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFD7E702E02BA8A00D68C44 /* Assets.xcassets */; };
 		0CFD7E742E02BA8A00D68C44 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFD7E732E02BA8A00D68C44 /* Preview Assets.xcassets */; };
 		0CFD7E7B2E02BB1B00D68C44 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0CFD7E7A2E02BB1B00D68C44 /* README.md */; };
+		0CFD7E7F2E02BE5A00D68C44 /* ARKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */; };
+		0CFD7E812E02C47E00D68C44 /* ARKit_Sample01_VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		0CFD7E702E02BA8A00D68C44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CFD7E732E02BA8A00D68C44 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0CFD7E7A2E02BB1B00D68C44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitView.swift; sourceTree = "<group>"; };
+		0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKit_Sample01_VM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				0CFD7E6C2E02BA8800D68C44 /* SUI_ARKit_Sample01App.swift */,
 				0CFD7E6E2E02BA8800D68C44 /* ContentView.swift */,
+				0CFD7E7E2E02BE5A00D68C44 /* ARKitView.swift */,
+				0CFD7E822E02C48A00D68C44 /* ViewModel */,
 				0CFD7E702E02BA8A00D68C44 /* Assets.xcassets */,
 				0CFD7E722E02BA8A00D68C44 /* Preview Content */,
 			);
@@ -68,6 +74,14 @@
 				0CFD7E732E02BA8A00D68C44 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0CFD7E822E02C48A00D68C44 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0CFD7E802E02C47E00D68C44 /* ARKit_Sample01_VM.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +156,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CFD7E6F2E02BA8800D68C44 /* ContentView.swift in Sources */,
+				0CFD7E812E02C47E00D68C44 /* ARKit_Sample01_VM.swift in Sources */,
 				0CFD7E6D2E02BA8800D68C44 /* SUI_ARKit_Sample01App.swift in Sources */,
+				0CFD7E7F2E02BE5A00D68C44 /* ARKitView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,11 +295,13 @@
 				DEVELOPMENT_TEAM = A9BV75HGP3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Es necesario usar la cámara para la realidad aumentada";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,11 +326,13 @@
 				DEVELOPMENT_TEAM = A9BV75HGP3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Es necesario usar la cámara para la realidad aumentada";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

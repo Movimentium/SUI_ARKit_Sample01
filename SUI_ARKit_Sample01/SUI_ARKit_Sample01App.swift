@@ -5,9 +5,12 @@ import SwiftUI
 
 @main
 struct SUI_ARKit_Sample01App: App {
+    @StateObject var vm = ARKit_Sample01_VM()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(vm)
         }
     }
 }
