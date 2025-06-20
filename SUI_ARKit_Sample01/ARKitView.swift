@@ -11,9 +11,11 @@ struct ARKitView: UIViewRepresentable {
     func makeUIView(context: Context) -> some UIView {
         print(Self.self, #function)
         let vwScene = ARSCNView()
-        vwScene.debugOptions = [.showFeaturePoints, .showWorldOrigin]
+        let tapGestRecog = UITapGestureRecognizer(target: context.coordinator, 
+                                                  action: #selector(Coordinator.handleTap))
+        vwScene.addGestureRecognizer(tapGestRecog)
+        // vwScene.debugOptions = [.showFeaturePoints, .showWorldOrigin]
         vwScene.autoenablesDefaultLighting = true
-        
         let configuration = ARWorldTrackingConfiguration()
         vwScene.session.run(configuration)
         
@@ -39,6 +41,10 @@ struct ARKitView: UIViewRepresentable {
         case let .rotateForm(modelForm, isOn):
             rotateForm(vwScene, modelForm: modelForm, isOn: isOn)
         }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(vm: vm)
     }
     
     private func addPrimitive(_ vwScene: ARSCNView, modelForm: ModelForm) {
@@ -78,6 +84,26 @@ struct ARKitView: UIViewRepresentable {
                 $0.runAction(repeatRotation)
             }
         }
+    }
+    
+    class Coordinator: NSObject {
+        var vm: ARKit_Sample01_VM
+        
+        init(vm: ARKit_Sample01_VM) {
+            self.vm = vm
+        }
+        
+        @objc func handleTap(_ sender: UITapGestureRecognizer) {
+            guard let vwScene = sender.view as? ARSCNView else { return }
+            let pnt = sender.location(in: vwScene)
+            let hitTest = vwScene.hitTest(pnt)
+            if let aNode = hitTest.first?.node {
+                vm.handleTap(msg: "Se ha tocado el nodo: \(aNode.name ?? "")")
+            } else {
+                vm.handleTap(msg: "No se ha tocado un nodo")
+            }
+        }
+        
     }
     
 }

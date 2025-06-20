@@ -35,6 +35,9 @@ final class ARKit_Sample01_VM: ObservableObject {
         selectedModelForm = .none
     }
     
+    func handleTap(msg: String){
+        print(msg)
+    }
 }
 
 enum ARKitAction {
