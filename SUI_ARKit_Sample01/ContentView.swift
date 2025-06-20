@@ -9,15 +9,11 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ARKitView()
-                .border(.red)
-            Picker("Forma", selection: $vm.selectedModelForm) {
-                ForEach(ModelForm.allCases) { form in
-                    Text(form.str).tag(form)
-                }
-            }
             HStack {
-                Button("Añadir") {
-                    vm.addForm()
+                Picker("Forma", selection: $vm.selectedModelForm) {
+                    ForEach(ModelForm.allCases) { form in
+                        Text(form.str).tag(form)
+                    }
                 }
                 Button("Rotar") {
                     vm.rotateForm()

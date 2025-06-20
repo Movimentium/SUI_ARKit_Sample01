@@ -6,6 +6,7 @@ import ARKit
 
 struct ARKitView: UIViewRepresentable {
     @EnvironmentObject var vm: ARKit_Sample01_VM
+    private var isActionInProgress = false
     
     func makeUIView(context: Context) -> some UIView {
         print(Self.self, #function)
@@ -25,43 +26,51 @@ struct ARKitView: UIViewRepresentable {
             print(Self.self, #function, "ERROR!!")
             return
         }
-
-        if vm.isAddedForm {
-            addPrimitive(vwScene)
-        } else {
+        
+        switch vm.arKitAction {
+        case .noAction:
+            print(".noAction")
+            return
+        case .addForm(let modelForm):
             removeAllNodes(vwScene)
-        }
-        if vm.isFormRotating {
-            rotateForm(vwScene)
+            addPrimitive(vwScene, modelForm: modelForm)
+        case .deleteForm:
+            removeAllNodes(vwScene)
+        case let .rotateForm(modelForm, isOn):
+            rotateForm(vwScene, modelForm: modelForm, isOn: isOn)
         }
     }
     
-    private func addPrimitive(_ vwScene: ARSCNView) {
+    private func addPrimitive(_ vwScene: ARSCNView, modelForm: ModelForm) {
         print(Self.self, #function)
         let aNode = SCNNode()
-
-        aNode.geometry = vm.selectedModelForm.geom
+        aNode.geometry = modelForm.geom
         aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
         aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         aNode.position = SCNVector3(0, 0, -0.3) // A 30cm al frente
-        aNode.name = vm.selectedModelForm.str
-        
+        aNode.name = modelForm.str
         vwScene.scene.rootNode.addChildNode(aNode)
     }
     
     private func removeAllNodes(_ vwScene: ARSCNView) {
+        print(Self.self, #function)
         vwScene.scene.rootNode.childNodes.forEach {
             $0.removeAllActions()
             $0.removeFromParentNode()
         }
     }
     
-    private func rotateForm(_ vwScene: ARSCNView) {
-        let rotation = SCNAction.rotate(by: 90 * .pi / 180,
-                                        around:  vm.selectedModelForm.aroundRotation,
+    private func rotateForm(_ vwScene: ARSCNView, modelForm: ModelForm, isOn: Bool) {
+        print(Self.self, #function)
+        if isOn == false {
+            vwScene.scene.rootNode.childNodes.forEach { $0.removeAllActions() }
+            return
+        }
+        let rotation = SCNAction.rotate(by: 2 * .pi, // radians
+                                        around: modelForm.aroundRotation,
                                         duration: 3)
         let repeatRotation = SCNAction.repeatForever(rotation)
-        let nameToSearch = vm.selectedModelForm.str
+        let nameToSearch = modelForm.str
         vwScene.scene.rootNode.childNodes.forEach {
             if $0.name == nameToSearch {
                 $0.runAction(repeatRotation)

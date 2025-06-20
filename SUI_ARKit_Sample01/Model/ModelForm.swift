@@ -5,6 +5,7 @@ import Foundation
 import SceneKit
 
 enum ModelForm: String, Identifiable, CaseIterable {
+    case none
     case box
     case capsule
     case cone
@@ -17,8 +18,9 @@ enum ModelForm: String, Identifiable, CaseIterable {
     case torus
     case tube
 
-    var geom: SCNGeometry {
+    var geom: SCNGeometry? {
         switch self {
+        case .none: nil
         case .box:       SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
         case .capsule:   SCNCapsule(capRadius: 0.05, height: 0.2)
         case .cone:     SCNCone(topRadius: 0.05, bottomRadius: 0.1, height: 0.2)

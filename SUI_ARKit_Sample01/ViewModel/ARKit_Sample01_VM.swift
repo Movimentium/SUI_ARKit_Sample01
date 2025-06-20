@@ -4,34 +4,39 @@
 import Foundation
 
 final class ARKit_Sample01_VM: ObservableObject {
-    @Published var aRKitViewUpdater = false
-    var selectedModelForm = ModelForm.box
-
-    var isAddedForm = false
-    var isFormRotating = false
-
-    func addForm() {
-        if isAddedForm == false {
-            isAddedForm = true
-            updateARKitView()
+    @Published var arKitAction = ARKitAction.noAction
+    @Published var selectedModelForm = ModelForm.none {
+        willSet {
+            if newValue == selectedModelForm {
+                arKitAction = .noAction
+            } else {
+                if newValue == .none {
+                    arKitAction = .deleteForm
+                } else {
+                    isRotateOn = false
+                    arKitAction = .addForm(newValue)
+                }
+            }
         }
     }
+    var isRotateOn = false
     
     func rotateForm() {
-        if isFormRotating == false {
-            isFormRotating = true
-            updateARKitView()
+        isRotateOn.toggle()
+        if selectedModelForm != .none {
+            arKitAction = .rotateForm(selectedModelForm, isRotateOn)
         }
-
     }
     
     func removeForm() {
-        isFormRotating = false
-        isAddedForm = false
-        updateARKitView()
+        selectedModelForm = .none
     }
     
-    private func updateARKitView() {
-        aRKitViewUpdater.toggle()
-    }
+}
+
+enum ARKitAction {
+    case noAction
+    case addForm(ModelForm)
+    case deleteForm
+    case rotateForm(ModelForm, Bool)
 }
