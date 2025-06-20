@@ -45,8 +45,10 @@ struct ARKitView: UIViewRepresentable {
         print(Self.self, #function)
         let aNode = SCNNode()
         aNode.geometry = modelForm.geom
-        aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        if modelForm != .laTierra {
+            aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+            aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        }
         aNode.position = SCNVector3(0, 0, -0.3) // A 30cm al frente
         aNode.name = modelForm.str
         vwScene.scene.rootNode.addChildNode(aNode)
@@ -68,7 +70,7 @@ struct ARKitView: UIViewRepresentable {
         }
         let rotation = SCNAction.rotate(by: 2 * .pi, // radians
                                         around: modelForm.aroundRotation,
-                                        duration: 3)
+                                        duration: 5)
         let repeatRotation = SCNAction.repeatForever(rotation)
         let nameToSearch = modelForm.str
         vwScene.scene.rootNode.childNodes.forEach {

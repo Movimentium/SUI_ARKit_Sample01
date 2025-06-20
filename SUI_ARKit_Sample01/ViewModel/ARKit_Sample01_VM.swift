@@ -4,7 +4,9 @@
 import Foundation
 
 final class ARKit_Sample01_VM: ObservableObject {
-    @Published var arKitAction = ARKitAction.noAction
+    @Published var arKitAction = ARKitAction.noAction {
+        didSet { print(">didSet arKitAction: ", arKitAction)}
+    }
     @Published var selectedModelForm = ModelForm.none {
         willSet {
             if newValue == selectedModelForm {
@@ -18,6 +20,7 @@ final class ARKit_Sample01_VM: ObservableObject {
                 }
             }
         }
+        didSet { print(">didSet selectedModelForm: ", selectedModelForm)}
     }
     var isRotateOn = false
     

@@ -17,12 +17,13 @@ enum ModelForm: String, Identifiable, CaseIterable {
     case text
     case torus
     case tube
+    case laTierra
 
     var geom: SCNGeometry? {
-        switch self {
+        return switch self {
         case .none: nil
-        case .box:       SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
-        case .capsule:   SCNCapsule(capRadius: 0.05, height: 0.2)
+        case .box:      SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+        case .capsule:  SCNCapsule(capRadius: 0.05, height: 0.2)
         case .cone:     SCNCone(topRadius: 0.05, bottomRadius: 0.1, height: 0.2)
         case .cylinder: SCNCylinder(radius: 1, height: 5)
         case .floor:    SCNFloor() // Vacío
@@ -30,8 +31,9 @@ enum ModelForm: String, Identifiable, CaseIterable {
         case .pyramid:  SCNPyramid(width: 0.1, height: 0.1, length: 0.1)
         case .sphere:   SCNSphere(radius: 0.1)
         case .text:     SCNText(string: "Hola", extrusionDepth: 0.4)
-        case .torus:   SCNTorus(ringRadius: 0.1, pipeRadius: 0.05)
-        case .tube:    SCNTube(innerRadius: 0.05, outerRadius: 0.1, height: 0.1)
+        case .torus:    SCNTorus(ringRadius: 0.1, pipeRadius: 0.05)
+        case .tube:     SCNTube(innerRadius: 0.05, outerRadius: 0.1, height: 0.1)
+        case .laTierra: crearLaTierra()
         }
     }
     
@@ -39,7 +41,7 @@ enum ModelForm: String, Identifiable, CaseIterable {
         switch self {
         case .cone, .plane:
             SCNVector3(x: 0, y: 1, z: 1)
-        case .text, .pyramid:
+        case .text, .pyramid, .laTierra:
             SCNVector3(x: 0, y: 1, z: 0)
         default:
             SCNVector3(x: 1, y: 0, z: 0)
@@ -51,5 +53,14 @@ enum ModelForm: String, Identifiable, CaseIterable {
     }
     
     var id: Self { self }
+    
+    private func crearLaTierra() -> SCNGeometry {
+        let geo = SCNSphere(radius: 0.075)
+        geo.firstMaterial?.diffuse.contents = UIImage(named: "tierra_diffuse.png")
+        geo.firstMaterial?.specular.contents = UIImage(named: "tierra_specular.png")
+        geo.firstMaterial?.emission.contents = UIImage(named: "tierra_emission.png")
+        geo.firstMaterial?.normal.contents = UIImage(named: "tierra_normal.png")
+        return geo
+    }
 }
 
