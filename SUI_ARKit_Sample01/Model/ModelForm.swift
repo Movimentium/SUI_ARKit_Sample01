@@ -43,7 +43,7 @@ enum ModelForm: String, Identifiable, CaseIterable {
         switch self {
         case .cone, .plane:
             SCNVector3(x: 0, y: 1, z: 1)
-        case .text, .pyramid, .laTierra:
+        case .text, .pyramid, .laTierra, .planeta:
             SCNVector3(x: 0, y: 1, z: 0)
         default:
             SCNVector3(x: 1, y: 0, z: 0)
@@ -68,9 +68,10 @@ enum ModelForm: String, Identifiable, CaseIterable {
     private func crearPlaneta() -> SCNGeometry {
         let geo = SCNSphere(radius: 0.075)
         geo.firstMaterial?.diffuse.contents = UIImage(named: "Concrete_BaseColor")
-        geo.firstMaterial?.specular.contents = UIImage(named: "Concrete_Roughness")
+        geo.firstMaterial?.specular.contents = UIImage(named: "Concrete_AmbientOcclusion")
         geo.firstMaterial?.emission.contents = UIImage(named: "Concrete_Height.png")
         geo.firstMaterial?.normal.contents = UIImage(named: "Concrete_Normal.png")
+//        geo.firstMaterial?.displacement.contents = UIImage(named: "Concrete_Roughness")
         return geo
     }
 }

@@ -52,7 +52,7 @@ struct ARKitView: UIViewRepresentable {
         print(Self.self, #function)
         let aNode = SCNNode()
         aNode.geometry = modelForm.geom
-        if modelForm != .laTierra {
+        if modelForm != .laTierra && modelForm != .planeta {
             aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
             aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         }
