@@ -6,7 +6,6 @@ import ARKit
 
 struct ARKitView: UIViewRepresentable {
     @EnvironmentObject var vm: ARKit_Sample01_VM
-    private var isActionInProgress = false
     
     func makeUIView(context: Context) -> some UIView {
         print(Self.self, #function)
@@ -47,6 +46,8 @@ struct ARKitView: UIViewRepresentable {
         Coordinator(vm: vm)
     }
     
+    // MARK: - Private methods
+    
     private func addPrimitive(_ vwScene: ARSCNView, modelForm: ModelForm) {
         print(Self.self, #function)
         let aNode = SCNNode()
@@ -86,6 +87,7 @@ struct ARKitView: UIViewRepresentable {
         }
     }
     
+    
     class Coordinator: NSObject {
         var vm: ARKit_Sample01_VM
         
@@ -103,7 +105,6 @@ struct ARKitView: UIViewRepresentable {
                 vm.handleTap(msg: "No se ha tocado un nodo")
             }
         }
-        
     }
     
 }

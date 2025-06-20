@@ -18,6 +18,7 @@ enum ModelForm: String, Identifiable, CaseIterable {
     case torus
     case tube
     case laTierra
+    case planeta
 
     var geom: SCNGeometry? {
         return switch self {
@@ -34,6 +35,7 @@ enum ModelForm: String, Identifiable, CaseIterable {
         case .torus:    SCNTorus(ringRadius: 0.1, pipeRadius: 0.05)
         case .tube:     SCNTube(innerRadius: 0.05, outerRadius: 0.1, height: 0.1)
         case .laTierra: crearLaTierra()
+        case .planeta:  crearPlaneta()
         }
     }
     
@@ -60,6 +62,15 @@ enum ModelForm: String, Identifiable, CaseIterable {
         geo.firstMaterial?.specular.contents = UIImage(named: "tierra_specular.png")
         geo.firstMaterial?.emission.contents = UIImage(named: "tierra_emission.png")
         geo.firstMaterial?.normal.contents = UIImage(named: "tierra_normal.png")
+        return geo
+    }
+    
+    private func crearPlaneta() -> SCNGeometry {
+        let geo = SCNSphere(radius: 0.075)
+        geo.firstMaterial?.diffuse.contents = UIImage(named: "Concrete_BaseColor")
+        geo.firstMaterial?.specular.contents = UIImage(named: "Concrete_Roughness")
+        geo.firstMaterial?.emission.contents = UIImage(named: "Concrete_Height.png")
+        geo.firstMaterial?.normal.contents = UIImage(named: "Concrete_Normal.png")
         return geo
     }
 }
