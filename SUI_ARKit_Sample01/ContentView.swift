@@ -22,6 +22,10 @@ struct ContentView: View {
                     vm.removeForm()
                 }
                 .tint(.red)
+                Button("Reset") {
+                    vm.restartSession()
+                }
+                .tint(.orange)
             }
         }
         .buttonStyle(.borderedProminent)

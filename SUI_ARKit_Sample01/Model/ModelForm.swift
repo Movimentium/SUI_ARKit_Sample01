@@ -71,7 +71,6 @@ enum ModelForm: String, Identifiable, CaseIterable {
         geo.firstMaterial?.specular.contents = UIImage(named: "Concrete_AmbientOcclusion")
         geo.firstMaterial?.emission.contents = UIImage(named: "Concrete_Height.png")
         geo.firstMaterial?.normal.contents = UIImage(named: "Concrete_Normal.png")
-//        geo.firstMaterial?.displacement.contents = UIImage(named: "Concrete_Roughness")
         return geo
     }
 }

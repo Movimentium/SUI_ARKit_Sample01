@@ -25,8 +25,8 @@ final class ARKit_Sample01_VM: ObservableObject {
     var isRotateOn = false
     
     func rotateForm() {
-        isRotateOn.toggle()
         if selectedModelForm != .none {
+            isRotateOn.toggle()
             arKitAction = .rotateForm(selectedModelForm, isRotateOn)
         }
     }
@@ -35,9 +35,16 @@ final class ARKit_Sample01_VM: ObservableObject {
         selectedModelForm = .none
     }
     
+    func restartSession() {
+        selectedModelForm = .none
+        arKitAction = .restartSession
+    }
+    
     func handleTap(msg: String){
         print(msg)
     }
+    
+    
 }
 
 enum ARKitAction {
@@ -45,4 +52,5 @@ enum ARKitAction {
     case addForm(ModelForm)
     case deleteForm
     case rotateForm(ModelForm, Bool)
+    case restartSession
 }

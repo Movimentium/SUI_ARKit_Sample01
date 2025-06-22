@@ -7,16 +7,21 @@ import ARKit
 struct ARKitView: UIViewRepresentable {
     @EnvironmentObject var vm: ARKit_Sample01_VM
     
+    func makeCoordinator() -> Coordinator {
+        print(Self.self, #function)
+        return Coordinator(vm: vm)
+    }
+    
     func makeUIView(context: Context) -> some UIView {
         print(Self.self, #function)
         let vwScene = ARSCNView()
-        let tapGestRecog = UITapGestureRecognizer(target: context.coordinator, 
-                                                  action: #selector(Coordinator.handleTap))
-        vwScene.addGestureRecognizer(tapGestRecog)
-        // vwScene.debugOptions = [.showFeaturePoints, .showWorldOrigin]
         vwScene.autoenablesDefaultLighting = true
-        let configuration = ARWorldTrackingConfiguration()
-        vwScene.session.run(configuration)
+        // vwScene.debugOptions = [.showFeaturePoints, .showWorldOrigin]
+        let tapGestRecog = UITapGestureRecognizer(target: context.coordinator,
+                                                  action: #selector(Coordinator.handleTap))
+        
+        vwScene.addGestureRecognizer(tapGestRecog)
+        vwScene.session.run(ARWorldTrackingConfiguration())
         
         return vwScene
     }
@@ -24,7 +29,6 @@ struct ARKitView: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {
         print(Self.self, #function)
         guard let vwScene = uiView as? ARSCNView else {
-            print(Self.self, #function, "ERROR!!")
             return
         }
         
@@ -39,13 +43,13 @@ struct ARKitView: UIViewRepresentable {
             removeAllNodes(vwScene)
         case let .rotateForm(modelForm, isOn):
             rotateForm(vwScene, modelForm: modelForm, isOn: isOn)
+        case .restartSession:
+            restartSession(vwScene)
         }
     }
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(vm: vm)
-    }
     
+
     // MARK: - Private methods
     
     private func addPrimitive(_ vwScene: ARSCNView, modelForm: ModelForm) {
@@ -63,10 +67,7 @@ struct ARKitView: UIViewRepresentable {
     
     private func removeAllNodes(_ vwScene: ARSCNView) {
         print(Self.self, #function)
-        vwScene.scene.rootNode.childNodes.forEach {
-            $0.removeAllActions()
-            $0.removeFromParentNode()
-        }
+        vwScene.scene.rootNode.childNodes.forEach { $0.removeFromParentNode() }
     }
     
     private func rotateForm(_ vwScene: ARSCNView, modelForm: ModelForm, isOn: Bool) {
@@ -83,8 +84,17 @@ struct ARKitView: UIViewRepresentable {
         vwScene.scene.rootNode.childNodes.forEach {
             if $0.name == nameToSearch {
                 $0.runAction(repeatRotation)
+                return
             }
         }
+    }
+    
+    private func restartSession(_ vwScene: ARSCNView) {
+        print(Self.self, #function)
+        vwScene.session.pause()
+        vwScene.scene.rootNode.childNodes.forEach { $0.removeFromParentNode() }
+        vwScene.session.run(ARWorldTrackingConfiguration(),
+                            options: [.resetTracking, .removeExistingAnchors])
     }
     
     
