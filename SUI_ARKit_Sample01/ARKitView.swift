@@ -105,30 +105,39 @@ struct ARKitView: UIViewRepresentable {
             self.vm = vm
         }
         
+        private enum TapType {
+            case oneTap
+            case dobleTap
+        }
+        
         @objc func handleOneTap(_ sender: UITapGestureRecognizer) {
-            guard let vwScene = sender.view as? ARSCNView else { return }
-            let pnt = sender.location(in: vwScene)
-            let hitTest = vwScene.hitTest(pnt)
-            if let aNode = hitTest.first?.node {
-                print("Se ha tocado el nodo: \(aNode.name ?? "")")
-                let moveAction = SCNAction.moveBy(x: 0, y: 0, z: -0.2, duration: 0.5)
-                moveAction.timingMode = .easeInEaseOut
-                aNode.runAction(moveAction)
-            }
+            handleTaps(sender, tapType: .oneTap)
         }
         
         @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+            handleTaps(sender, tapType: .dobleTap)
+        }
+        
+        private func handleTaps(_ sender: UITapGestureRecognizer, tapType: TapType) {
             guard let vwScene = sender.view as? ARSCNView else { return }
             let pnt = sender.location(in: vwScene)
             let hitTest = vwScene.hitTest(pnt)
             if let aNode = hitTest.first?.node {
                 print("Se ha tocado el nodo: \(aNode.name ?? "")")
-                let pntOrigin = SCNVector3(0, 0, vm.originalZposition)
-                let moveBackAction = SCNAction.move(to: pntOrigin, duration: 0.5)
-                moveBackAction.timingMode = .easeInEaseOut
-                aNode.runAction(moveBackAction)
+                switch tapType {
+                case .oneTap:
+                    let moveAction = SCNAction.moveBy(x: 0, y: 0, z: -0.2, duration: 0.5)
+                    moveAction.timingMode = .easeInEaseOut
+                    aNode.runAction(moveAction)
+                case .dobleTap:
+                    let pntOrigin = SCNVector3(0, 0, vm.originalZposition)
+                    let moveBackAction = SCNAction.move(to: pntOrigin, duration: 0.5)
+                    moveBackAction.timingMode = .easeInEaseOut
+                    aNode.runAction(moveBackAction)
+                }
             }
         }
+        
     }
     
 }
