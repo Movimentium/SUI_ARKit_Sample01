@@ -17,10 +17,15 @@ struct ARKitView: UIViewRepresentable {
         let vwScene = ARSCNView()
         vwScene.autoenablesDefaultLighting = true
         // vwScene.debugOptions = [.showFeaturePoints, .showWorldOrigin]
-        let tapGestRecog = UITapGestureRecognizer(target: context.coordinator,
-                                                  action: #selector(Coordinator.handleTap))
-        
-        vwScene.addGestureRecognizer(tapGestRecog)
+        let oneTapRecog = UITapGestureRecognizer(target: context.coordinator,
+                                                 action: #selector(Coordinator.handleOneTap))
+        let doubleTapRecog = UITapGestureRecognizer(target: context.coordinator,
+                                                    action: #selector(Coordinator.handleDoubleTap))
+        oneTapRecog.numberOfTapsRequired = 1
+        doubleTapRecog.numberOfTapsRequired = 2
+        oneTapRecog.require(toFail: doubleTapRecog)
+        vwScene.addGestureRecognizer(oneTapRecog)
+        vwScene.addGestureRecognizer(doubleTapRecog)
         vwScene.session.run(ARWorldTrackingConfiguration())
         
         return vwScene
@@ -28,9 +33,7 @@ struct ARKitView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
         print(Self.self, #function)
-        guard let vwScene = uiView as? ARSCNView else {
-            return
-        }
+        guard let vwScene = uiView as? ARSCNView else { return }
         
         switch vm.arKitAction {
         case .noAction:
@@ -47,8 +50,6 @@ struct ARKitView: UIViewRepresentable {
             restartSession(vwScene)
         }
     }
-    
-    
 
     // MARK: - Private methods
     
@@ -60,7 +61,7 @@ struct ARKitView: UIViewRepresentable {
             aNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
             aNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         }
-        aNode.position = SCNVector3(0, 0, -0.3) // A 30cm al frente
+        aNode.position = SCNVector3(0, 0, vm.originalZposition) // A 30cm al frente
         aNode.name = modelForm.str
         vwScene.scene.rootNode.addChildNode(aNode)
     }
@@ -97,7 +98,6 @@ struct ARKitView: UIViewRepresentable {
                             options: [.resetTracking, .removeExistingAnchors])
     }
     
-    
     class Coordinator: NSObject {
         var vm: ARKit_Sample01_VM
         
@@ -105,14 +105,28 @@ struct ARKitView: UIViewRepresentable {
             self.vm = vm
         }
         
-        @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        @objc func handleOneTap(_ sender: UITapGestureRecognizer) {
             guard let vwScene = sender.view as? ARSCNView else { return }
             let pnt = sender.location(in: vwScene)
             let hitTest = vwScene.hitTest(pnt)
             if let aNode = hitTest.first?.node {
-                vm.handleTap(msg: "Se ha tocado el nodo: \(aNode.name ?? "")")
-            } else {
-                vm.handleTap(msg: "No se ha tocado un nodo")
+                print("Se ha tocado el nodo: \(aNode.name ?? "")")
+                let moveAction = SCNAction.moveBy(x: 0, y: 0, z: -0.2, duration: 0.5)
+                moveAction.timingMode = .easeInEaseOut
+                aNode.runAction(moveAction)
+            }
+        }
+        
+        @objc func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+            guard let vwScene = sender.view as? ARSCNView else { return }
+            let pnt = sender.location(in: vwScene)
+            let hitTest = vwScene.hitTest(pnt)
+            if let aNode = hitTest.first?.node {
+                print("Se ha tocado el nodo: \(aNode.name ?? "")")
+                let pntOrigin = SCNVector3(0, 0, vm.originalZposition)
+                let moveBackAction = SCNAction.move(to: pntOrigin, duration: 0.5)
+                moveBackAction.timingMode = .easeInEaseOut
+                aNode.runAction(moveBackAction)
             }
         }
     }

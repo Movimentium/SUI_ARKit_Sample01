@@ -23,6 +23,7 @@ final class ARKit_Sample01_VM: ObservableObject {
         didSet { print(">didSet selectedModelForm: ", selectedModelForm)}
     }
     var isRotateOn = false
+    let originalZposition: CGFloat = -0.3
     
     func rotateForm() {
         if selectedModelForm != .none {
@@ -40,10 +41,7 @@ final class ARKit_Sample01_VM: ObservableObject {
         arKitAction = .restartSession
     }
     
-    func handleTap(msg: String){
-        print(msg)
-    }
-    
+ 
     
 }
 
